@@ -9,7 +9,15 @@
 Changes
 =======
 
-Version 1.0.0a2 (release 2020-11-08)
+Version 1.0.0a2 (release 2020-10-08)
+------------------------------------
+
+- Changes license to MIT
+- Adds support for Python 3 and dependencies upgrade
+- Improves documentation
+- Integrates pytest-invenio 1.4
+
+Version 1.0.0a2 (release 2019-11-08)
 ------------------------------------
 
 - Removes amqp dependency because it breaks pip dependency resolution

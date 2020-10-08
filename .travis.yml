@@ -22,7 +22,7 @@ addons:
     packages:
     - rabbitmq-server
 
-service:
+services:
   - redis-server
 
 env:
