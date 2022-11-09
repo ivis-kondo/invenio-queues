@@ -15,6 +15,7 @@ from kombu.pools import connections
 
 def get_connection_pool():
     """Retrieve the broker connection pool."""
-    broker_url = current_app.config.get('QUEUES_BROKER_URL') or \
-        current_app.config.get('BROKER_URL', 'amqp://')
+    broker_url = current_app.config.get("QUEUES_BROKER_URL") or current_app.config.get(
+        "BROKER_URL", "amqp://"
+    )
     return connections[Connection(broker_url)]

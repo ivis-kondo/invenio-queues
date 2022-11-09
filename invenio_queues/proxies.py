@@ -11,5 +11,4 @@
 from flask import current_app
 from werkzeug.local import LocalProxy
 
-current_queues = LocalProxy(
-    lambda: current_app.extensions['invenio-queues'])
+current_queues = LocalProxy(lambda: current_app.extensions["invenio-queues"])

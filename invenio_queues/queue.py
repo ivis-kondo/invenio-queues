@@ -37,9 +37,7 @@ class Queue(object):
         """Message queue queue."""
         with self.connection_pool.acquire(block=True) as conn:
             return Q(
-                self.routing_key,
-                exchange=self.exchange,
-                routing_key=self.routing_key
+                self.routing_key, exchange=self.exchange, routing_key=self.routing_key
             )(conn)
 
     @property
@@ -58,7 +56,7 @@ class Queue(object):
         except NotFound:
             return False
         except ChannelError as e:
-            if e.reply_code == '404':
+            if e.reply_code == "404":
                 return False
             raise e
         return True

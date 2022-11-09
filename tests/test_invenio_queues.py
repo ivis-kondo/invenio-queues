@@ -23,20 +23,21 @@ from invenio_queues.queue import Queue
 def test_version():
     """Test version import."""
     from invenio_queues import __version__
+
     assert __version__
 
 
 def test_init():
     """Test extension initialization."""
-    app = Flask('testapp')
+    app = Flask("testapp")
     ext = InvenioQueues(app)
-    assert 'invenio-queues' in app.extensions
+    assert "invenio-queues" in app.extensions
 
-    app = Flask('testapp')
+    app = Flask("testapp")
     ext = InvenioQueues()
-    assert 'invenio-queues' not in app.extensions
+    assert "invenio-queues" not in app.extensions
     ext.init_app(app)
-    assert 'invenio-queues' in app.extensions
+    assert "invenio-queues" in app.extensions
 
 
 def test_duplicate_queue(app):
@@ -44,7 +45,7 @@ def test_duplicate_queue(app):
     with app.app_context():
         data = []
         for idx in range(2):
-            queue_name = 'myqueue'
+            queue_name = "myqueue"
             entrypoint = EntryPoint(queue_name, queue_name)
             conf = dict(name=queue_name, exchange=MOCK_MQ_EXCHANGE)
             entrypoint.load = lambda conf=conf: (lambda: [conf])
@@ -52,19 +53,22 @@ def test_duplicate_queue(app):
 
         entrypoints = mock_iter_entry_points_factory(data)
 
-        with patch('pkg_resources.iter_entry_points', entrypoints):
+        with patch("pkg_resources.iter_entry_points", entrypoints):
             with pytest.raises(DuplicateQueueError):
                 current_queues.queues()
 
 
-with_different_brokers = pytest.mark.parametrize("config", [
-    # test with default connection pool
-    {},
-    # test with in memory broker as the exception is not the same
-    {'QUEUES_BROKER_URL': 'memory://'},
-    {'QUEUES_BROKER_URL': 'amqp://'},
-    {'QUEUES_BROKER_URL': 'redis://'},
-])
+with_different_brokers = pytest.mark.parametrize(
+    "config",
+    [
+        # test with default connection pool
+        {},
+        # test with in memory broker as the exception is not the same
+        {"QUEUES_BROKER_URL": "memory://"},
+        {"QUEUES_BROKER_URL": "amqp://"},
+        {"QUEUES_BROKER_URL": "redis://"},
+    ],
+)
 """Test with standard and in memory broker."""
 
 
@@ -73,7 +77,7 @@ def test_publish_and_consume(app, test_queues, config):
     """Test queue.publish and queue.consume."""
     app.config.update(config)
     with app.app_context():
-        queue = current_queues.queues[test_queues[0]['name']]
+        queue = current_queues.queues[test_queues[0]["name"]]
         queue.publish([1, 2, 3])
         queue.publish([4, 5])
         assert list(queue.consume()) == [1, 2, 3, 4, 5]
@@ -89,8 +93,8 @@ def test_queue_exists(app, test_queues_entrypoints, config):
         current_queues.declare()
         for queue in current_queues.queues.values():
             # NOTE: skip existence check for redis since is not supported
-            broker_url = app.config.get('QUEUES_BROKER_URL') or ''
-            if broker_url.startswith('redis'):
+            broker_url = app.config.get("QUEUES_BROKER_URL") or ""
+            if broker_url.startswith("redis"):
                 continue
             assert queue.exists
 
@@ -100,10 +104,10 @@ def test_routing(app, test_queues, config):
     """Test basic routing of messages."""
     app.config.update(config)
     with app.app_context():
-        q0 = current_queues.queues[test_queues[0]['name']]
-        q1 = current_queues.queues[test_queues[1]['name']]
-        q0.publish([{'event': '0'}])
-        q1.publish([{'event': '1'}])
+        q0 = current_queues.queues[test_queues[0]["name"]]
+        q1 = current_queues.queues[test_queues[1]["name"]]
+        q0.publish([{"event": "0"}])
+        q1.publish([{"event": "1"}])
 
-        assert list(q0.consume()) == [{'event': '0'}]
-        assert list(q1.consume()) == [{'event': '1'}]
+        assert list(q0.consume()) == [{"event": "0"}]
+        assert list(q1.consume()) == [{"event": "1"}]

@@ -136,10 +136,10 @@ You can as well add this in a task like:
 from .ext import InvenioQueues
 from .proxies import current_queues
 
-__version__ = '1.0.0a3'
+__version__ = "1.0.0a3"
 
 __all__ = (
-    '__version__',
-    'current_queues',
-    'InvenioQueues',
+    "__version__",
+    "current_queues",
+    "InvenioQueues",
 )

@@ -19,9 +19,9 @@ def queues():
     """Manage events queue."""
 
 
-@queues.command('list')
-@click.option('--declared', is_flag=True, help='show declared queues.')
-@click.option('--undeclared', is_flag=True, help='show undeclared queues.')
+@queues.command("list")
+@click.option("--declared", is_flag=True, help="show declared queues.")
+@click.option("--undeclared", is_flag=True, help="show undeclared queues.")
 @with_appcontext
 def list(declared, undeclared):
     """List configured queues."""
@@ -36,41 +36,38 @@ def list(declared, undeclared):
         click.secho(queue)
 
 
-@queues.command('declare')
-@click.argument('queues', nargs=-1)
+@queues.command("declare")
+@click.argument("queues", nargs=-1)
 @with_appcontext
 def declare(queues):
     """Initialize the given queues."""
     current_queues.declare(queues=queues)
     click.secho(
-        'Queues {} have been declared.'.format(
-            queues or current_queues.queues.keys()),
-        fg='green'
+        "Queues {} have been declared.".format(queues or current_queues.queues.keys()),
+        fg="green",
     )
 
 
-@queues.command('purge')
-@click.argument('queues', nargs=-1)
-@click.option('--force', is_flag=True, default=False)
+@queues.command("purge")
+@click.argument("queues", nargs=-1)
+@click.option("--force", is_flag=True, default=False)
 @with_appcontext
 def purge_queues(force=False, queues=None):
     """Purge the given queues."""
     current_queues.purge(force=force, queues=queues)
     click.secho(
-        'Queues {} have been purged.'.format(
-            queues or current_queues.queues.keys()),
-        fg='green'
+        "Queues {} have been purged.".format(queues or current_queues.queues.keys()),
+        fg="green",
     )
 
 
-@queues.command('delete')
-@click.argument('queues', nargs=-1)
+@queues.command("delete")
+@click.argument("queues", nargs=-1)
 @with_appcontext
 def delete_queue(queues):
     """Delete the given queues."""
     current_queues.delete(queues=queues)
     click.secho(
-        'Queues {} have been deleted.'.format(
-            queues or current_queues.queues.keys()),
-        fg='green'
+        "Queues {} have been deleted.".format(queues or current_queues.queues.keys()),
+        fg="green",
     )
