@@ -135,7 +135,8 @@ You can as well add this in a task like:
 
 from .ext import InvenioQueues
 from .proxies import current_queues
-from .version import __version__
+
+__version__ = '1.0.0a3'
 
 __all__ = (
     '__version__',
