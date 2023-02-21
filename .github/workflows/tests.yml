@@ -29,21 +29,18 @@ jobs:
     timeout-minutes: 20
     strategy:
       matrix:
-          python-version: [3.7, 3.8, 3.9]
+          python-version: ["3.8", "3.9"]
           requirements-level: [min, pypi]
           cache-service: [redis]
           mq-service: [rabbitmq]
           exclude:
-          - python-version: 3.8
-            requirements-level: min
-
-          - python-version: 3.9
+          - python-version: "3.9"
             requirements-level: min
 
     env:
       CACHE: ${{ matrix.cache-service }}
       MQ: ${{ matrix.mq-service }}
-      EXTRAS: all
+      EXTRAS: tests
     steps:
       - name: Checkout
         uses: actions/checkout@v2
