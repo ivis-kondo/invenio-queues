@@ -1,4 +1,3 @@
-#!/usr/bin/env sh
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
@@ -23,10 +22,48 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-export PYTEST_ADDOPTS='docs tests invenio_queues'
+"""Minimal Flask application example.
 
-pydocstyle invenio_queues tests docs && \
-isort -rc -c -df && \
-check-manifest --ignore ".travis-*" && \
-sphinx-build -qnNW docs docs/_build/html && \
-python setup.py test
+SPHINX-START
+
+First install Invenio-Queues, setup the application and load
+fixture data by running:
+
+.. code-block:: console
+
+   $ pip install -e .[all]
+   $ cd examples
+   $ ./app-setup.sh
+   $ ./app-fixtures.sh
+
+Next, start the development server:
+
+.. code-block:: console
+
+   $ export FLASK_APP=app.py FLASK_DEBUG=1
+   $ flask run
+
+and open the example application in your browser:
+
+.. code-block:: console
+
+    $ open http://127.0.0.1:5000/
+
+To reset the example application run:
+
+.. code-block:: console
+
+    $ ./app-teardown.sh
+
+SPHINX-END
+"""
+
+from __future__ import absolute_import, print_function
+
+from flask import Flask
+
+from invenio_queues import InvenioQueues
+
+# Create Flask application
+app = Flask(__name__)
+InvenioQueues(app)
